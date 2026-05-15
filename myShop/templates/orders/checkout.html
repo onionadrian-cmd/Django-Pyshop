@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="section-content padding-y bg">
+<div class="container">
+
+<div class="row">
+	<aside class="col-lg-8">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Shipping Address</h4>
+			</div>
+			<div class="card-body">
+				<form action="{% url 'place_order' %}" method="POST">
+					{% csrf_token %}
+					<div class="row">
+						<div class="col-md-6">
+							<label for="first_name" class="form-label">First Name</label>
+							<input type="text" name="first_name" class="form-control" required>
+						</div>
+						<div class="col-md-6">
+							<label for="last_name" class="form-label">Last Name</label>
+							<input type="text" name="last_name" class="form-control" required>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<label for="email" class="form-label">Email</label>
+							<input type="email" name="email" class="form-control" required>
+						</div>
+						<div class="col-md-6">
+							<label for="phone_number" class="form-label">Phone Number</label>
+							<input type="tel" name="phone_number" class="form-control" required>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="address_line_1" class="form-label">Address</label>
+						<input type="text" name="address_line_1" class="form-control" placeholder="Street address" required>
+					</div>
+
+					<div class="form-group">
+						<label for="address_line_2" class="form-label">Address 2 (optional)</label>
+						<input type="text" name="address_line_2" class="form-control" placeholder="Apt or suite">
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<label for="city" class="form-label">City</label>
+							<input type="text" name="city" class="form-control" required>
+						</div>
+						<div class="col-md-4">
+							<label for="state" class="form-label">State</label>
+							<input type="text" name="state" class="form-control" required>
+						</div>
+						<div class="col-md-2">
+							<label for="postal_code" class="form-label">Zip</label>
+							<input type="text" name="postal_code" class="form-control" required>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="country" class="form-label">Country</label>
+						<input type="text" name="country" class="form-control" value="United States" required>
+					</div>
+
+					<div class="form-group">
+						<label for="order_note" class="form-label">Order Notes (optional)</label>
+						<textarea name="order_note" class="form-control" rows="3"></textarea>
+					</div>
+
+					<hr>
+					<button type="submit" class="btn btn-primary btn-lg btn-block">Place Order</button>
+					<a href="{% url 'cart' %}" class="btn btn-light btn-block">Back to Cart</a>
+				</form>
+			</div>
+		</div>
+	</aside>
+
+	<aside class="col-lg-4">
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title mb-4">Order Summary</h5>
+
+				{% if cart_items %}
+					{% for item in cart_items %}
+					<div class="row mb-3 pb-3 border-bottom">
+						<div class="col-md-8">
+							<p class="mb-0">{{ item.product.product_name }}</p>
+							<small class="text-muted">Quantity: {{ item.quantity }}</small>
+						</div>
+						<div class="col-md-4 text-right">
+							<strong>${{ item.subtotal }}</strong>
+						</div>
+					</div>
+					{% endfor %}
+
+					<dl class="dlist-align mb-3">
+						<dt>Subtotal:</dt>
+						<dd class="text-right">${{ total }}</dd>
+					</dl>
+					<dl class="dlist-align mb-3">
+						<dt>Shipping (2%):</dt>
+						<dd class="text-right">${{ shipping }}</dd>
+					</dl>
+					<dl class="dlist-align">
+						<dt class="text-dark"><strong>Total:</strong></dt>
+						<dd class="text-right text-dark"><strong>${{ grand_total }}</strong></dd>
+					</dl>
+				{% else %}
+					<p class="text-muted">Your cart is empty</p>
+					<a href="{% url 'store' %}" class="btn btn-primary btn-block">Continue Shopping</a>
+				{% endif %}
+			</div>
+		</div>
+	</aside>
+</div>
+
+</div>
+</section>
+
+{% endblock %}

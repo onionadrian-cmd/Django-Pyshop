@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="section-content padding-y bg">
+<div class="container">
+
+<div class="card">
+	<div class="card-header bg-success text-white">
+		<h3 class="mb-0">Order Confirmed!</h3>
+	</div>
+	<div class="card-body">
+		<div class="row mb-5">
+			<div class="col-md-6">
+				<h5>Order Number</h5>
+				<p class="display-6">{{ order.order_number }}</p>
+				<small class="text-muted">Order Date: {{ order.created_at|date:"M d, Y H:i" }}</small>
+			</div>
+			<div class="col-md-6 text-md-right">
+				<h5>Order Status</h5>
+				<p>
+					{% if order.status == 'PENDING' %}
+						<span class="badge badge-warning">{{ order.get_status_display }}</span>
+					{% elif order.status == 'PROCESSING' %}
+						<span class="badge badge-info">{{ order.get_status_display }}</span>
+					{% elif order.status == 'DELIVERED' %}
+						<span class="badge badge-success">{{ order.get_status_display }}</span>
+					{% else %}
+						<span class="badge badge-danger">{{ order.get_status_display }}</span>
+					{% endif %}
+				</p>
+				<small class="text-muted">Last Updated: {{ order.updated_at|date:"M d, Y H:i" }}</small>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="row mb-5">
+			<div class="col-md-6">
+				<h5>Shipping Address</h5>
+				<p>
+					{{ order.first_name }} {{ order.last_name }}<br>
+					{{ order.address_line_1 }}{% if order.address_line_2 %}<br>{{ order.address_line_2 }}{% endif %}<br>
+					{{ order.city }}, {{ order.state }} {{ order.postal_code }}<br>
+					{{ order.country }}
+				</p>
+				<p class="text-muted">
+					<strong>Email:</strong> {{ order.email }}<br>
+					<strong>Phone:</strong> {{ order.phone_number }}
+				</p>
+			</div>
+			<div class="col-md-6">
+				<h5>Order Notes</h5>
+				<p>{{ order.order_note|default:"No additional notes" }}</p>
+			</div>
+		</div>
+
+		<hr>
+
+		<h5 class="mb-4">Order Items</h5>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Product</th>
+					<th>Price</th>
+					<th>Quantity</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in order_items %}
+				<tr>
+					<td>
+						<a href="{{ item.product.get_url }}" class="text-dark">
+							{{ item.product.product_name }}
+						</a>
+					</td>
+					<td>${{ item.product_price }}</td>
+					<td>{{ item.quantity }}</td>
+					<td>${{ item.get_row_total }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<hr>
+
+		<div class="row justify-content-end">
+			<div class="col-md-4">
+				<table class="table">
+					<tr>
+						<td><strong>Subtotal:</strong></td>
+						<td class="text-right">
+							${%  widthratio order.order_total 1.02 1 %}
+						</td>
+					</tr>
+					<tr>
+						<td><strong>Shipping (2%):</strong></td>
+						<td class="text-right">
+							${{ order.order_total|add:0|add:0|stringformat:"f" }}
+						</td>
+					</tr>
+					<tr class="table-light">
+						<td><strong>Grand Total:</strong></td>
+						<td class="text-right"><strong>${{ order.order_total }}</strong></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<p class="text-muted">Thank you for your order! We'll send you an email confirmation shortly.</p>
+				<a href="{% url 'order_list' %}" class="btn btn-primary">View All Orders</a>
+				<a href="{% url 'store' %}" class="btn btn-light">Continue Shopping</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>
+</section>
+
+{% endblock %}
