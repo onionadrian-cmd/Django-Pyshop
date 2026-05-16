@@ -140,7 +140,7 @@ a:hover {
 }
 
 .hover-bg:hover {
-  background: #1f1f1f;
+  background: #3167eb;
   /* For browsers that do not support gradients */
   /* For Safari 5.1 to 6.0 */
   /* For Opera 11.1 to 12.0 */
@@ -240,7 +240,7 @@ article:after,
 }
 
 .bg {
-  background-color: #1f1f1f;
+  background-color: #f8f9fa;
 }
 
 .bg-white {
