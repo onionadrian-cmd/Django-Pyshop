@@ -1,5 +1,50 @@
 from django.db import models
 from django.urls import reverse
+from colorfield.fields import ColorField
+
+class WebsiteCustomization(models.Model):
+    primary_color = ColorField(default='#0066cc')
+    secondary_color = ColorField(default='#ff9900')
+    accent_color = ColorField(default='#00cc66')
+
+    background_type = models.CharField(
+        max_length=10,
+        choices=[('color', 'Color'), ('gradient', 'Gradient'), ('image', 'Image')],
+        default='color'
+    )
+    background_color = ColorField(default='#ffffff')
+    background_gradient = models.CharField(
+        max_length=255,
+        default='linear-gradient(135deg, #ffffff, #f5f5f5)',
+        help_text='CSS gradient format, e.g., linear-gradient(135deg, #fff, #f5f5f5)'
+    )
+    background_image = models.ImageField(upload_to='backgrounds/', null=True, blank=True)
+
+    text_color = ColorField(default='#333333')
+    heading_color = ColorField(default='#000000')
+
+    button_color = ColorField(default='#0066cc')
+    button_text_color = ColorField(default='#ffffff')
+    button_hover_color = ColorField(default='#0052a3')
+    button_hover_text_color = ColorField(default='#ffffff')
+
+    link_color = ColorField(default='#0066cc')
+    link_hover_color = ColorField(default='#0052a3')
+
+    header_background = ColorField(default='#ffffff')
+    footer_background = ColorField(default='#333333')
+    footer_text_color = ColorField(default='#ffffff')
+
+    class Meta:
+        verbose_name_plural = "Website Customization"
+
+    def __str__(self):
+        return "Website Customization Settings"
+
+    @classmethod
+    def get_settings(cls):
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj
 
 class Banner(models.Model):
     title = models.CharField(max_length=255, blank=True)
