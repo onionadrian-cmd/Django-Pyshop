@@ -48,4 +48,6 @@ class OrderItem(models.Model):
         return f"{self.product.product_name} x{self.quantity}"
 
     def get_row_total(self):
+        if self.product_price is None or self.quantity is None:
+            return 0
         return self.product_price * self.quantity

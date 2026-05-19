@@ -10,7 +10,7 @@
 	<aside class="col-lg-8">
 		<div class="card">
 			<div class="card-header">
-				<h4 class="card-title">Shipping Address</h4>
+				<h4 class="card-title" style="color: white;">Shipping Address</h4>
 			</div>
 			<div class="card-body">
 				<form action="{% url 'place_order' %}" method="POST">
@@ -53,7 +53,7 @@
 							<input type="text" name="city" class="form-control" required>
 						</div>
 						<div class="col-md-4">
-							<label for="state" class="form-label">State</label>
+							<label for="state" class="form-label">Region</label>
 							<input type="text" name="state" class="form-control" required>
 						</div>
 						<div class="col-md-2">
@@ -64,7 +64,7 @@
 
 					<div class="form-group">
 						<label for="country" class="form-label">Country</label>
-						<input type="text" name="country" class="form-control" value="United States" required>
+						<input type="text" name="country" class="form-control" value="Philippines" required>
 					</div>
 
 					<div class="form-group">
@@ -74,7 +74,7 @@
 
 					<hr>
 					<button type="submit" class="btn btn-primary btn-lg btn-block">Place Order</button>
-					<a href="{% url 'cart' %}" class="btn btn-light btn-block">Back to Cart</a>
+					<a href="{% url 'cart' %}" class="btn btn-primary btn-block">Back to Cart</a>
 				</form>
 			</div>
 		</div>
